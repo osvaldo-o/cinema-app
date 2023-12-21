@@ -1,4 +1,5 @@
 import 'package:cinemapedia/presentation/provider/movies/movies_providers.dart';
+import 'package:cinemapedia/presentation/provider/movies/movies_slideshow_provider.dart';
 import 'package:cinemapedia/presentation/screens/widgets/movies/movies_slideshow.dart';
 import 'package:cinemapedia/presentation/screens/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -33,11 +34,12 @@ class _HomeViewState extends ConsumerState<_HomeView> {
 
   @override
   Widget build(BuildContext context) {
-    final nowPlayingMovies = ref.watch(nowPlayingMoviesProvider);
+    //final nowPlayingMovies = ref.watch(nowPlayingMoviesProvider);
+    final moviesSlideshow = ref.watch(moviesSlideshowProvider);
     return Column(
       children: [
         const CustomAppbar(),
-        MovieSlideshow(movies: nowPlayingMovies)
+        MovieSlideshow(movies: moviesSlideshow),
       ],
     );
   }
