@@ -1,6 +1,4 @@
-import 'package:cinemapedia/presentation/provider/movies/movies_providers.dart';
-import 'package:cinemapedia/presentation/provider/movies/movies_slideshow_provider.dart';
-import 'package:cinemapedia/presentation/screens/widgets/movies/movies_slideshow.dart';
+import 'package:cinemapedia/presentation/provider/providers.dart';
 import 'package:cinemapedia/presentation/screens/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -14,6 +12,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Scaffold(
       body: _HomeView(),
+      bottomNavigationBar: CustomButtomNavigationBar(),
     );
   }
 }
