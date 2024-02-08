@@ -30,6 +30,8 @@ class _HomeViewState extends ConsumerState<_HomeView> {
     super.initState();
     ref.read(nowPlayingMoviesProvider.notifier).loadNextPage();
     ref.read(popularMovieProvider.notifier).loadNextPage();
+    ref.read(upcomingMovieProvider.notifier).loadNextPage();
+    ref.read(topRatedMoviesProvider.notifier).loadNextPage();
   }
 
   @override
@@ -37,6 +39,8 @@ class _HomeViewState extends ConsumerState<_HomeView> {
     final nowPlayingMovies = ref.watch(nowPlayingMoviesProvider);
     final moviesSlideshow = ref.watch(moviesSlideshowProvider);
     final popularMovies = ref.watch(popularMovieProvider);
+    final upcomingMovies = ref.watch(upcomingMovieProvider);
+    final topRatedMovies = ref.watch(topRatedMoviesProvider);
 
     return CustomScrollView(
       slivers: [
@@ -47,30 +51,43 @@ class _HomeViewState extends ConsumerState<_HomeView> {
             )),
         SliverList(
             delegate: SliverChildBuilderDelegate(
-          childCount: 1,
           (context, index) {
             return Column(
               children: [
                 MovieSlideshow(movies: moviesSlideshow),
                 MovieHorizontalListview(
                   movies: nowPlayingMovies,
-                  title: 'En cines',
-                  subTitle: 'Viernes 29',
+                  title: 'Now Playing',
+                  subTitle: 'Miercoles',
                   loadNextPage: () => ref
                       .read(nowPlayingMoviesProvider.notifier)
                       .loadNextPage(),
                 ),
                 MovieHorizontalListview(
                   movies: popularMovies,
-                  title: 'Populares',
-                  subTitle: 'Mejores',
+                  title: 'Popular',
+                  subTitle: 'Las mejores',
                   loadNextPage: () =>
                       ref.read(popularMovieProvider.notifier).loadNextPage(),
                 ),
+                MovieHorizontalListview(
+                  movies: upcomingMovies,
+                  title: 'Upcoming',
+                  loadNextPage: () =>
+                      ref.read(upcomingMovieProvider.notifier).loadNextPage(),
+                ),
+                MovieHorizontalListview(
+                  movies: topRatedMovies,
+                  title: 'top Rated',
+                  loadNextPage: () =>
+                      ref.read(topRatedMoviesProvider.notifier).loadNextPage(),
+                ),
+                const SizedBox(height: 10),
               ],
             );
           },
-        ))
+          childCount: 1,
+        )),
       ],
     );
   }
