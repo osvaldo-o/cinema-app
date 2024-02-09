@@ -1,4 +1,5 @@
 import 'package:cinemapedia/presentation/provider/providers.dart';
+import 'package:cinemapedia/presentation/screens/widgets/shared/full_screen_loader.dart';
 import 'package:cinemapedia/presentation/screens/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -36,6 +37,8 @@ class _HomeViewState extends ConsumerState<_HomeView> {
 
   @override
   Widget build(BuildContext context) {
+    if (ref.watch(initialLoadingProvider)) return const FullScreenLoader();
+
     final nowPlayingMovies = ref.watch(nowPlayingMoviesProvider);
     final moviesSlideshow = ref.watch(moviesSlideshowProvider);
     final popularMovies = ref.watch(popularMovieProvider);
@@ -82,7 +85,7 @@ class _HomeViewState extends ConsumerState<_HomeView> {
                   loadNextPage: () =>
                       ref.read(topRatedMoviesProvider.notifier).loadNextPage(),
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 4),
               ],
             );
           },
