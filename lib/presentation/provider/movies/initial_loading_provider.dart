@@ -6,5 +6,6 @@ final initialLoadingProvider = Provider<bool>((ref) {
   final step2 = ref.read(popularMovieProvider).isEmpty;
   final step3 = ref.read(upcomingMovieProvider).isEmpty;
   final step4 = ref.read(topRatedMoviesProvider).isEmpty;
-  return (step1 && step2 && step3 && step4);
+  if (step1 || step2 || step3 || step4) return false;
+  return true;
 });
