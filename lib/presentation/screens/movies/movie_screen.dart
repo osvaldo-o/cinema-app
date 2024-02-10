@@ -1,5 +1,6 @@
 import 'package:cinemapedia/domain/entities/movie.dart';
 import 'package:cinemapedia/presentation/provider/movies/movie_info_provider.dart';
+import 'package:cinemapedia/presentation/provider/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -17,6 +18,7 @@ class _MovieScreenState extends ConsumerState<MovieScreen> {
   void initState() {
     super.initState();
     ref.read(movieInfoProvider.notifier).loadMovie(widget.movieId);
+    ref.read(actorsProvider.notifier).loadActor(widget.movieId);
   }
 
   @override
@@ -79,6 +81,55 @@ class _CustomSliderAppBar extends StatelessWidget {
   }
 }
 
+class _ActorByMovieView extends ConsumerWidget {
+  final String movieId;
+  const _ActorByMovieView(this.movieId);
+
+  @override
+  Widget build(BuildContext context, ref) {
+    final actorsByMovie = ref.watch(actorsProvider);
+    if (actorsByMovie[movieId] == null) {
+      return const Center(child: CircularProgressIndicator(strokeWidth: 2));
+    }
+    final actors = actorsByMovie[movieId]!;
+    return SizedBox(
+        height: 300,
+        child: ListView.builder(
+          itemCount: actors.length,
+          itemBuilder: (context, index) {
+            final actor = actors[index];
+            return Container(
+              padding: const EdgeInsets.all(8.0),
+              width: 35,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: Image.network(
+                      actor.profilePath,
+                      height: 180,
+                      width: 135,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  const SizedBox(height: 5),
+                  Text(actor.name, maxLines: 2),
+                  Text(
+                    actor.character ?? '',
+                    maxLines: 2,
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        overflow: TextOverflow.ellipsis),
+                  )
+                ],
+              ),
+            );
+          },
+        ));
+  }
+}
+
 class _MovieDetails extends StatelessWidget {
   final Movie movie;
   const _MovieDetails({required this.movie});
@@ -125,6 +176,7 @@ class _MovieDetails extends StatelessWidget {
                         borderRadius: BorderRadius.circular(20)),
                   )))
             ])),
+        _ActorByMovieView(movie.id.toString()),
         const SizedBox(height: 100),
       ],
     );
