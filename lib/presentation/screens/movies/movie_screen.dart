@@ -95,12 +95,13 @@ class _ActorByMovieView extends ConsumerWidget {
     return SizedBox(
         height: 300,
         child: ListView.builder(
+          scrollDirection: Axis.horizontal,
           itemCount: actors.length,
           itemBuilder: (context, index) {
             final actor = actors[index];
             return Container(
               padding: const EdgeInsets.all(8.0),
-              width: 35,
+              width: 135,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -177,7 +178,7 @@ class _MovieDetails extends StatelessWidget {
                   )))
             ])),
         _ActorByMovieView(movie.id.toString()),
-        const SizedBox(height: 100),
+        const SizedBox(height: 20),
       ],
     );
   }
