@@ -1,11 +1,13 @@
+import 'package:cinemapedia/presentation/provider/movies/movies_repository_provider.dart';
 import 'package:cinemapedia/presentation/screens/delegates/search_movie_delegate.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class CustomAppbar extends StatelessWidget {
+class CustomAppbar extends ConsumerWidget {
   const CustomAppbar({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ref) {
     final color = Theme.of(context).primaryColor;
     final titleStyle = Theme.of(context).textTheme.titleMedium;
     return SafeArea(
@@ -23,7 +25,11 @@ class CustomAppbar extends StatelessWidget {
                 IconButton(
                     onPressed: () {
                       showSearch(
-                          context: context, delegate: SearchMovieDelegate());
+                          context: context,
+                          delegate: SearchMoviesDelegate(
+                            searchMovies:
+                                ref.read(movieRepositoryProvider).searchMovies,
+                          ));
                     },
                     icon: const Icon(Icons.search))
               ],
